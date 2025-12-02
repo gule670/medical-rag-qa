@@ -4,14 +4,16 @@ import json
 import faiss
 import numpy as np
 
-
+BASE_PATH = os.path.dirname(__file__)
 @st.cache_resource
 def load_faiss():
-    return faiss.read_index("E:\\ANLP\\Assignment 3\\medical_faiss.index")
+    index_path = os.path.join(BASE_PATH, "medical_faiss.index")
+    return faiss.read_index(index_path)
 
 @st.cache_resource
 def load_chunks():
-    with open("E:\\ANLP\\Assignment 3\\processed_medical_chunks.json", "r", encoding="utf-8") as f:
+    chunks_path = os.path.join(BASE_PATH, "processed_medical_chunks.json")
+    with open(chunks_path, "r", encoding="utf-8") as f:
         return json.load(f)
 
 @st.cache_resource
@@ -26,7 +28,7 @@ model = load_model()
 
 from groq import Groq
 import streamlit as st
-client = Groq(api_key=st.secrets[""GROQ_API_KEY""])
+client = Groq(api_key=st.secrets["GROQ_API_KEY"])
 def ask_llm(question,context):
     prompt = f"""
     Answer the question based on the context below. Only include information directly relevant.
@@ -135,3 +137,4 @@ if st.button("Enter"):
         D, I = index.search(q_emb, k=3)
         retrieved_texts = [chunks[idx]["chunk_text"][:500] for idx in I[0]]
         st.write(ask_llm(user_input,retrieved_texts))
+
