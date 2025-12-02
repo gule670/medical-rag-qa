@@ -1,1 +1,2 @@
 medical_faiss.index filter=lfs diff=lfs merge=lfs -text
+processed_medical_chunks.json filter=lfs diff=lfs merge=lfs -text
