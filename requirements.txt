@@ -5,3 +5,4 @@ pandas
 numpy
 groq
 openai
+sentence-transformers
