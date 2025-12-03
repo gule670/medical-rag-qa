@@ -23,6 +23,8 @@ def load_model():
     return SentenceTransformer("all-MiniLM-L6-v2")
 
 chunks = load_chunks()
+print("Files in directory:", os.listdir(BASE_PATH))
+print("FAISS exists:", os.path.exists(os.path.join(BASE_PATH, "medical_faiss.index")))
 index = load_faiss()
 model = load_model()
 
@@ -138,5 +140,6 @@ if st.button("Enter"):
         D, I = index.search(q_emb, k=3)
         retrieved_texts = [chunks[idx]["chunk_text"][:500] for idx in I[0]]
         st.write(ask_llm(user_input,retrieved_texts))
+
 
 
