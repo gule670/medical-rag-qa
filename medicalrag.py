@@ -14,7 +14,7 @@ HF_TOKEN = st.secrets["HF_TOKEN"]
 def load_faiss():
     index_path = hf_hub_download(
         repo_id=HF_REPO,
-        filename="medical_faiss.index"
+        filename="medical_faiss.index",
         token=HF_TOKEN
     )
     return faiss.read_index(index_path)
@@ -152,6 +152,7 @@ if st.button("Enter"):
         D, I = index.search(q_emb, k=3)
         retrieved_texts = [chunks[idx]["chunk_text"][:500] for idx in I[0]]
         st.write(ask_llm(user_input,retrieved_texts))
+
 
 
 
