@@ -4,8 +4,9 @@ import os
 import json
 import faiss
 import numpy as np
+from pathlib import Path
 
-BASE_PATH = os.path.dirname(__file__)
+BASE_PATH = Path(".").resolve()
 @st.cache_resource
 def load_faiss():
     index_path = os.path.join(BASE_PATH, "medical_faiss.index")
@@ -140,6 +141,7 @@ if st.button("Enter"):
         D, I = index.search(q_emb, k=3)
         retrieved_texts = [chunks[idx]["chunk_text"][:500] for idx in I[0]]
         st.write(ask_llm(user_input,retrieved_texts))
+
 
 
 
