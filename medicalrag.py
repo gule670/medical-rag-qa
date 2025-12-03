@@ -7,6 +7,9 @@ import numpy as np
 from pathlib import Path
 
 BASE_PATH = Path(".").resolve()
+
+print("DEBUG — Current working directory:", BASE_PATH)
+print("DEBUG — Files in this directory:", os.listdir(BASE_PATH))
 @st.cache_resource
 def load_faiss():
     index_path = os.path.join(BASE_PATH, "medical_faiss.index")
@@ -141,6 +144,7 @@ if st.button("Enter"):
         D, I = index.search(q_emb, k=3)
         retrieved_texts = [chunks[idx]["chunk_text"][:500] for idx in I[0]]
         st.write(ask_llm(user_input,retrieved_texts))
+
 
 
 
