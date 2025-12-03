@@ -9,12 +9,13 @@ from huggingface_hub import hf_hub_download
 
 
 HF_REPO = "gulemuneeb/medical-rag-data" 
-
+HF_TOKEN = st.secrets["HF_TOKEN"] 
 @st.cache_resource
 def load_faiss():
     index_path = hf_hub_download(
         repo_id=HF_REPO,
         filename="medical_faiss.index"
+        token=HF_TOKEN
     )
     return faiss.read_index(index_path)
 BASE_PATH = Path(".").resolve()
@@ -151,6 +152,7 @@ if st.button("Enter"):
         D, I = index.search(q_emb, k=3)
         retrieved_texts = [chunks[idx]["chunk_text"][:500] for idx in I[0]]
         st.write(ask_llm(user_input,retrieved_texts))
+
 
 
 
